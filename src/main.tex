@@ -2,25 +2,28 @@
 %! Date = 10.04.2023
 
 % Preamble
-\documentclass[a4paper, 12pt]{article}
+\documentclass[a4paper, 12pt, oneside]{scrartcl}
 % Packages
 \usepackage[T2A]{fontenc}
 \usepackage[english, russian]{babel}
 \usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{{./Images/}}
 \usepackage[utf8]{inputenc}
+\DeclareGraphicsExtensions{.png,.jpg}
 % Document
+\title{Хеширование строк}
+\author{}
+\date{}
 \begin{document}
+    \maketitle
+    \section{Хеш-функции}\label{sec:section1}
+    Default1.~\cite{managementsystem}
 
-    \section{Section1}\label{sec:introduction}
-    Привет.~\cite{managementsystem}
-
-    Я в разделе~\ref{sec:introduction}
-	Под техническим риском понимается значение риска информационной безопасности, состоящего из вероятностей реализации угроз и использования уязвимостей каждого компонента
-	информационной инфраструктуры с учетом уровня их конфиденциальности, целостности и доступности.
-    Hellow.
-    \section{Section2}\label{sec:introduction2}
-    В классическом представлении риск – это вероятность реализации угрозы информационной безопасности.
-    Оценка риска производится на основе анализа ценности ИТ-актива для бизнеса, уязвимостей, угроз и вероятности их реализации.
+    \section{MD5}\label{sec:section2}
+    Default2.
+    \section{SHA-1}\label{sec:section3}
+    Default3.
     \bibliography{main}
     \bibliographystyle{plain}
 
