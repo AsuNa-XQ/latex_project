@@ -13,36 +13,32 @@
 \usepackage{comment}
 \DeclareGraphicsExtensions{.png,.jpg}
 
-\usepackage{color} %% это для отображения цвета в коде
-\usepackage{listings} %% собственно, это и есть пакет listings
-\usepackage{caption}
-\DeclareCaptionFont{white}{\color{white}} %% это сделает текст заголовка белым
-%% код ниже нарисует серую рамочку вокруг заголовка кода.
-\DeclareCaptionFormat{listing}{\colorbox{black}{\parbox{\textwidth}{#1#2#3}}}
-\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+\usepackage{listings}
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
 % Document
 \title{Хеширование строк}
 \author{}
 \date{}
 \begin{document}
 	\maketitle
-	\lstset{ %
-		language=C,                 % выбор языка для подсветки (здесь это С)
-		basicstyle=\small\sffamily, % размер и начертание шрифта для подсветки кода
-		numbers=left,               % где поставить нумерацию строк (слева\справа)
-		numberstyle=\tiny,           % размер шрифта для номеров строк
-		stepnumber=1,                   % размер шага между двумя номерами строк
-		numbersep=5pt,                % как далеко отстоят номера строк от подсвечиваемого кода
-		backgroundcolor=\color{white}, % цвет фона подсветки - используем \usepackage{color}
-		showspaces=false,            % показывать или нет пробелы специальными отступами
-		showstringspaces=false,      % показывать или нет пробелы в строках
-		showtabs=false,             % показывать или нет табуляцию в строках
-		frame=single,              % рисовать рамку вокруг кода
-		tabsize=2,                 % размер табуляции по умолчанию равен 2 пробелам
-		captionpos=t,              % позиция заголовка вверху [t] или внизу [b]
-		breaklines=true,           % автоматически переносить строки (да\нет)
-		breakatwhitespace=false, % переносить строки только если есть пробел
-		escapeinside={\%*}{*)}   % если нужно добавить комментарии в коде
+	\lstset{frame=tb,
+		language=Python,
+		aboveskip=3mm,
+		belowskip=3mm,
+		showstringspaces=false,
+		columns=flexible,
+		basicstyle={\small\ttfamily},
+		numbers=none,
+		numberstyle=\tiny\color{gray},
+		keywordstyle=\color{blue},
+		commentstyle=\color{dkgreen},
+		stringstyle=\color{mauve},
+		breaklines=true,
+		breakatwhitespace=true,
+		tabsize=3
 	}
 	\section{Хеш-функции}\label{sec:section1}
 	Хеш-функция предназначена для свертки входного массива любого размера в битовую строку, для MD5 длина выходной строки равна 128 битам. Для чего это нужно?
@@ -65,21 +61,21 @@
 	\end{figure}
 	\par
 	Алгоритм состоит из пяти шагов:\par
-	1)Append Padding Bits\par
+	1.Append Padding Bits\par
 	В исходную строку дописывают единичный байт 0х80, а затем дописывают нулевые биты, до тех пор, пока длина сообщения не будет сравнима с 448 по модулю 512.
 	То есть дописываем нули до тех пор, пока длина нового сообщения не будет равна [длина] = (512*N+448), где N — любое натуральное число, такое, что это выражение будет наиболее близко к длине блока.
 	
-	2)Append Length\par
+	2.Append Length\par
 	Далее в сообщение дописывается 64-битное представление длины исходного сообщения.
 	
-	3)Initialize MD Buffer\par
+	3.Initialize MD Buffer\par
 	На этом шаге инициализируется буффер\par
 	word A: 01 23 45 67\par
 	word B: 89 ab cd ef\par
 	word C: fe dc ba 98\par
 	word D: 76 54 32 10\par
 	Как можно заметить буффер состоит из четырех констант, предназначенный для сбора хэша.\par
-	4)Process Message in 16-Word Blocks\par
+	4.Process Message in 16-Word Blocks\par
 	На четвертом шаге в первую очередь определяется 4 вспомогательные логические функции, которые преобразуют входные 32-битные слова, в, как ни странно, в 32-битные выходные.\par
 	\iffalse
 	\begin{equation}
@@ -99,7 +95,9 @@
 		\label{Qulon_lo4}
 	\end{equation}
 	\fi
-	В листинге \ref{some-code} представлен пример MD5-хэширования\par
+	5.Output\par
+	Выводя побайтово буффер ABCD начиная с A и заканчивая D получим наш хеш.\par
+	В листинге \ref{some-code} представлен пример MD5-хеширования.\par
 	
 	\begin{lstlisting}[label=some-code,caption= MD5]
 		import hashlib
